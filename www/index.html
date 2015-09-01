@@ -34,13 +34,14 @@
         <title>Hello World</title>
     </head>
     <body ng-controller="picalCtrl">
-        <div class="app">
+        <div>
             <h1>Pical Moments</h1>
-            <ul>
-                <li ng-repeat="moment in moments">
-                    <span>{{moment.Name}}</span>
-                </li>
-            </ul>
+
+            <p ng-repeat="moment in moments">
+                <img src="http://www.gravatar.com/avatar/{{moment.gravatarhash}}?s=32&d=mm">
+                <span>{{moment.Name}}</span>
+            </p>
+
         </div>
         <script type="text/javascript" xsrc="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
@@ -52,6 +53,13 @@
             picalApp.controller("picalCtrl", ["$scope", "$firebaseArray",
                 function($scope, $firebaseArray) {
                     var ref = new Firebase("https://pical.firebaseio.com/Moments");
+                    ref.authWithOAuthPopup("facebook", function(error, authData) {
+                        if (error) {
+                            console.log("Login Failed!", error);
+                        } else {
+                            console.log("Authenticated successfully with payload:", authData);
+                        }
+                    });
                     $scope.moments = $firebaseArray(ref);
                  }
             ]);
