@@ -51,6 +51,9 @@
             app.initialize();
 
 document.addEventListener("deviceready", function() {
+                                          //vibrate
+                                          navigator.notification.vibrate();
+
                                           canvasMain = document.getElementById("camera");
                                           CanvasCamera.initialize(canvasMain);
                                           // define options
@@ -90,6 +93,14 @@ document.addEventListener("deviceready", function() {
 
             picalApp.controller("picalCtrl", ["$scope", "$firebaseArray",
                 function($scope, $firebaseArray) {
+                    ref.authWithOAuthPopup("facebook", function(error, authData) {
+                        if (error) {
+                            console.log("Login Failed!", error);
+                        } else {
+                            console.log("Authenticated successfully with payload:", authData);
+                        }
+                    });
+
                     var ref = new Firebase("https://pical.firebaseio.com/Moments");
                     ref.authWithOAuthPopup("facebook", function(error, authData) {
                         if (error) {
