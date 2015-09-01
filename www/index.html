@@ -36,8 +36,10 @@
     <body ng-controller="picalCtrl">
         <div>
             <h1>Pical Moments</h1>
-
+            <canvas id="camera" width="352" height="288" style="border:2px"></canvas>
+            <input type="button" value="Take a picture" onclick="onTakePicture();" />
             <p ng-repeat="moment in moments">
+                <img src="{{moment.profilepic}}">
                 <img src="http://www.gravatar.com/avatar/{{moment.gravatarhash}}?s=32&d=mm">
                 <span>{{moment.Name}}</span>
             </p>
@@ -47,6 +49,42 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
+
+document.addEventListener("deviceready", function() {
+                                          canvasMain = document.getElementById("camera");
+                                          CanvasCamera.initialize(canvasMain);
+                                          // define options
+                                          var opt = {
+                                              quality: 75,
+                                              destinationType: CanvasCamera.DestinationType.DATA_URL,
+                                              encodingType: CanvasCamera.EncodingType.JPEG,
+                                              saveToPhotoAlbum:true,
+                                              correctOrientation:true,
+                                              width:640,
+                                              height:480
+                                          };
+                                          CanvasCamera.start(opt);
+                                      });
+
+            function onChangeDevicePosition() {
+
+                var newDevicePosition = CanvasCamera.CameraPosition.BACK;
+                CanvasCamera.setCameraPosition(newDevicePosition);
+            }
+
+            function onChangeFlashMode() {
+
+                var newFlashMode = CanvasCamera.FlashMode.OFF;
+                CanvasCamera.setFlashMode(newFlashMode);
+            }
+
+            function onTakePicture() {
+                CanvasCamera.takePicture(onTakeSuccess);
+            }
+
+            function onTakeSuccess(data) {
+                //
+            }
 
             var picalApp = angular.module('picalApp', ["firebase"]);
 
