@@ -27,91 +27,231 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28//angular-route.min.js"></script>
         <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
         <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
-        <title>Hello World</title>
-    </head>
-    <body ng-controller="picalCtrl">
-        <div>
-            <h1>Pical Moments</h1>
-            <canvas id="camera" width="352" height="288" style="border:2px"></canvas>
-            <input type="button" value="Take a picture" onclick="onTakePicture();" />
-            <p ng-repeat="moment in moments">
-                <img src="{{moment.profilepic}}">
-                <img src="http://www.gravatar.com/avatar/{{moment.gravatarhash}}?s=32&d=mm">
-                <span>{{moment.Name}}</span>
-            </p>
 
-        </div>
-        <script type="text/javascript" xsrc="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
+  <style>
+    body {
+      background-color: #F7941E;
+    }
+    #splash-page {
+      background-color: #F7941E;
+      background-image: url("img/splash.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      xbackground-attachment: fixed;
+      background-position: center;
+    }
+    #fakebody {
+      background-color: #F7941E;
+      background-image: url("img/splash.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      xbackground-attachment: fixed;
+      background-position: center;
+    }
+    #header-bar {
+      padding-top: 12px;
+      padding-bottom: 3px;
+      background-color: #F7941E;
+      height: 30px;
+      border-bottom: 5px solid #44C8F5;
+      text-align: center;
+    }
+    #moment-images {
+      height: 70px;
+      width: 100%;
+      background: #ffffff;
+      padding-top: 7px;
+    }
+    #moment-title {
+      height: 24px;
+      background: #ffffff;
+      font-family: 'PT Sans', sans-serif;
+      font-size: 18px;
+      color: #111111;
+      text-align: center;
+      text-overflow: ellipsis;
+    }
+    #profile-images {
+      height: 42px;
+      width: 100%;
+      background: #dddddd;
+      padding-bottom: 2px;
+    }
+    #next-moment-wrapper {
+      background: #44C8F5;
+      height: 340px;
+    }
+    #camera-shutter {
+      float: left;
+      width: 75%;
+    }
+    #countdown-clock {
+      position: relative;
+      top: -80px;
+      width: 88%;
+      text-align: center;
+      font-family: 'PT Sans', sans-serif;
+      font-size: 40px;
+      color: #cccccc;
+      padding-bottom: 80px;
+    }
+    #next-moment {
+      float: right;
+      width: 25%;
+      background: #dddddd;
+      height: calc(100% - 5px);
+      text-align: center;
+      padding-top: 5px;
+    }
+    #footer-bar {
+      background-color: #F7941E;
+      height: 30px;
+      border-top: 5px solid #44C8F5;
+      text-align: right;
+    }
+    #location {
+      position: relative;
+      top: -160px;
+      left: calc(100% - 190px);
+      width: 50px;
+      height: 50px;
+    }
+    #comment {
+      position: relative;
+      top: -160px;
+      left: calc(100% - 125px);
+      width: 50px;
+      height: 50px;
+    }
+    #photo {
+      position: relative;
+      top: -160px;
+      left: calc(100% - 60px);
+      width: 50px;
+      height: 50px;
+    }
+  </style>
 
-document.addEventListener("deviceready", function() {
-                                          //vibrate
-                                          navigator.notification.vibrate();
+  <title>Pical</title>
+</head>
+<body xclass="app" ng-controller="picalCtrl">
 
-                                          canvasMain = document.getElementById("camera");
-                                          CanvasCamera.initialize(canvasMain);
-                                          // define options
-                                          var opt = {
-                                              quality: 75,
-                                              destinationType: CanvasCamera.DestinationType.DATA_URL,
-                                              encodingType: CanvasCamera.EncodingType.JPEG,
-                                              saveToPhotoAlbum:true,
-                                              correctOrientation:true,
-                                              width:640,
-                                              height:480
-                                          };
-                                          CanvasCamera.start(opt);
-                                      });
+<div id="splash-page" data-role = "page" ng-lick="fakebody">
+</div>
 
-            function onChangeDevicePosition() {
+<div id="fakebody" data-role = "page" style="width:100%;height:100%">
 
-                var newDevicePosition = CanvasCamera.CameraPosition.BACK;
-                CanvasCamera.setCameraPosition(newDevicePosition);
-            }
+  <div id="header-bar">
+    <img src="img/logo.png" style="width:55px;height:38px;";>
+  </div>
 
-            function onChangeFlashMode() {
+  <div id="moments-wrapper">
 
-                var newFlashMode = CanvasCamera.FlashMode.OFF;
-                CanvasCamera.setFlashMode(newFlashMode);
-            }
+    <div id="moment-images">
+      <img src="img/temp/moment-images.png" width="100%" height="100%">
+    </div>
 
-            function onTakePicture() {
-                CanvasCamera.takePicture(onTakeSuccess);
-            }
+    <div id="moment-title">
+      How's the Weather
+    </div>
 
-            function onTakeSuccess(data) {
-                //
-            }
+    <div id="profile-images">
+      <img src="img/temp/profile-pics.png" width="100%" height="100%">
+    </div>
 
-            var picalApp = angular.module('picalApp', ["firebase"]);
+    <div id="next-moment-wrapper">
 
-            picalApp.controller("picalCtrl", ["$scope", "$firebaseArray",
-                function($scope, $firebaseArray) {
-                    ref.authWithOAuthPopup("facebook", function(error, authData) {
-                        if (error) {
-                            console.log("Login Failed!", error);
-                        } else {
-                            console.log("Authenticated successfully with payload:", authData);
-                        }
-                    });
+      <div id="camera-shutter">
+        <img src="img/shutter.png"  width="100%" height="100%">
+        <div id="countdown-clock">07:06:45</div>
+      </div>
 
-                    var ref = new Firebase("https://pical.firebaseio.com/Moments");
-                    ref.authWithOAuthPopup("facebook", function(error, authData) {
-                        if (error) {
-                            console.log("Login Failed!", error);
-                        } else {
-                            console.log("Authenticated successfully with payload:", authData);
-                        }
-                    });
-                    $scope.moments = $firebaseArray(ref);
-                 }
-            ]);
-        </script>
-    </body>
+      <div id="next-moment">
+        <img src="img/group.png"  width="50%"><br>
+        4,354<br>
+        Joined<br>
+        <img src="img/join.png"  width="80%">
+        <p>Friday<br>4:10PM</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="footer-bar">
+
+    <div id="location">
+      <img src="img/location.png" width="100%">
+    </div>
+
+    <div id="comment">
+      <img src="img/comment.png" width="100%">
+    </div>
+
+    <div id="photo">
+      <img src="img/photo.png" width="100%">
+    </div>
+  </div>
+
+    <!--
+    <button ng-click="login('facebook')"><img src="img/facebook.png"></button>
+    <button ng-click="login_anonymous()"><img src="img/twitter.png"></button>
+    <button ng-click="login_anonymous()"><img src="img/googleplus.png"></button>
+    <button ng-click="logout()"><img src="img/email.png"></button>
+
+    <p ng-if="authData">Logged in user: <strong>{{ authData.uid }}</strong></p>
+    <p ng-if="error">Error: <strong>{{ error }}</strong></p>
+
+    <p ng-repeat="moment in moments">
+      <img src="{{moment.profilepic}}">
+      <img src="http://www.gravatar.com/avatar/{{moment.gravatarhash}}?s=32&d=mm">
+      <span>{{moment.Name}}</span>
+    </p>
+    -->
+
+  </div>
+</div>
+
+<script type="text/javascript" xsrc="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+app.initialize();
+
+var app = angular.module("picalApp", ["ngRoute", "firebase"]);
+
+app.config(function($routeProvider) {
+  $routeProvider
+    .when('/splash', {
+      templateUrl: 'splash.html',
+      controller: 'SplashController'
+    })
+    .when('/main', {
+      templateUrl: 'main.html',
+      controller: 'SecondController'
+    })
+    .otherwise({
+      redirectTo: '/main'
+    });
+  });
+
+app.controller("picalCtrl", ["$scope", "$firebaseArray",
+  function($scope, $firebaseArray) {
+    var ref = new Firebase("https://pical.firebaseio.com/Settings/fakewidth");
+    ref.on("value", function(snapshot) {
+      $scope.fakewidth = snapshot.val();
+      console.log($scope.fakewidth);
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+  }
+]);
+</script>
+
+</body>
 </html>
