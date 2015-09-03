@@ -15,7 +15,9 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/plugins/CSSPlugin.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/TweenLite.min.js"></script>
+        <!--
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/easing/EasePack.min.js"></script>
+        -->
 
   <style>
     body {
@@ -260,8 +262,7 @@ app.controller("picalCtrl", function($scope, $firebaseObject) {
 
 function clickedSidebarHandle() {
   var sbh = document.getElementById("fakebody");
-  TweenLite.to(sbh, 1, {paddingLeft:"400px", ease:Bounce.easeOut});
-  TweenLite.to(sbh, 3, {paddingLeft:"0px", ease:Bounce.easeOut, delay:1});
+  TweenLite.to(sbh, 1, {paddingLeft:"200px"});
 }
 
 </script>
