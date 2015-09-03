@@ -13,6 +13,10 @@
         <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
         <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/plugins/CSSPlugin.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/TweenLite.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/easing/EasePack.min.js"></script>
+
   <style>
     body {
       background-color: #F7941E;
@@ -24,6 +28,9 @@
       background-repeat: no-repeat;
       xbackground-attachment: fixed;
       background-position: center;
+    }
+    #fakebody-wrapper {
+      overflow: hidden;
     }
     #fakebody {
       background-color: #F7941E;
@@ -40,6 +47,11 @@
       height: 30px;
       border-bottom: 5px solid #44C8F5;
       text-align: center;
+    }
+    #sidebar-handle {
+      width: 40px;
+      float: left;
+      padding-top: 5px;
     }
     #moment-images {
       height: 70px;
@@ -58,9 +70,14 @@
     }
     #profile-images {
       height: 42px;
-      width: 100%;
-      background: #dddddd;
+      width: calc(100% - 3px);
+      background: #ffffff;
       padding-bottom: 2px;
+      padding-left: 3px;
+    }
+    #profile-images img {
+      border-radius: 5px;
+      border: 1px solid #44C8F5;
     }
     #next-moment-wrapper {
       background: #44C8F5;
@@ -121,13 +138,19 @@
 </head>
 <body ng-controller="picalCtrl">
 
-<div id="splash-page" data-role = "page" ng-lick="fakebody">
+<div id="splash-page" style="width:{{ data.Settings.fakewidth + 'px' }};">
 </div>
 
-<div id="fakebody" data-role = "page" style="width:{{ data.Settings.fakewidth + 'px' }};height:{{ data.Settings.fakeheight + 'px' }}">
+<div id="fakebody-wrapper" style="width:{{ data.Settings.fakewidth + 'px' }};height:{{ data.Settings.fakeheight + 'px' }}">
+<div id="fakebody" style="width:{{ data.Settings.fakewidth + 'px' }};height:{{ data.Settings.fakeheight + 'px' }}">
 
   <div id="header-bar">
     <img src="img/logo.png" style="width:55px;height:38px;";>
+
+    <div id="sidebar-handle" onClick="clickedSidebarHandle()">
+      <img src="img/sidebar-handle.png" width="100%">
+    </div>
+
   </div>
 
   <div id="moments-wrapper">
@@ -141,7 +164,11 @@
     </div>
 
     <div id="profile-images">
-      <img src="img/temp/profile-pics.png" width="100%" height="100%">
+      <span ng-repeat="joiner in thislast.joined">
+        <span ng-if="showGravatar(joiner)"><img src="http://www.gravatar.com/avatar/{{ joiner.userid }}?s=40&d=mm"></span>
+        <span ng-if="showFacebookProfilePic(joiner)"><img src="http://graph.facebook.com/{{ joiner.userid }}/picture?type=square" style="width:40px;height:40px;"></span>
+        <span ng-if="showTwitterProfilePic(joiner)"><img src="https://twitter.com/{{ joiner.userid }}/profile_image?size=normal" style="width:40px;height:40px;"></span>
+      </span>
     </div>
 
     <div id="next-moment-wrapper">
@@ -196,6 +223,7 @@
 
   </div>
 </div>
+</div>
 
 <script type="text/javascript" xsrc="cordova.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
@@ -204,14 +232,38 @@ app.initialize();
 
 var app = angular.module("picalApp", ["firebase"]);
 app.controller("picalCtrl", function($scope, $firebaseObject) {
-  var ref = new Firebase("https://pical.firebaseio.com");
-  // download the data into a local object
-  var syncObject = $firebaseObject(ref);
-  // synchronize the object with a three-way data binding
-  // click on `index.html` above to see it used in the DOM!
-  syncObject.$bindTo($scope, "data");
-  console.log(syncObject);
+  var data = new Firebase("https://pical.firebaseio.com");
+  var dataObject = $firebaseObject(data);
+  dataObject.$bindTo($scope, "data");
+
+  var user = new Firebase("https://pical.firebaseio.com/9a3221d34738e484f5529ad4fc051139");
+  var userObject = $firebaseObject(user);
+  userObject.$bindTo($scope, "thisuser");
+
+  var thislast = new Firebase("https://pical.firebaseio.com/Moments/345");
+  var thislastObject = $firebaseObject(thislast);
+  thislastObject.$bindTo($scope, "thislast");
+  console.log(thislastObject);
+
+  $scope.showGravatar = function(joiner) {
+    return joiner.source == 'gravatar';
+  }
+
+  $scope.showFacebookProfilePic = function(joiner) {
+    return joiner.source == 'facebook';
+  }
+  $scope.showTwitterProfilePic = function(joiner) {
+    return joiner.source == 'twitter';
+  }
+
 });
+
+function clickedSidebarHandle() {
+  var sbh = document.getElementById("fakebody");
+  TweenLite.to(sbh, 1, {paddingLeft:"400px", ease:Bounce.easeOut});
+  TweenLite.to(sbh, 3, {paddingLeft:"0px", ease:Bounce.easeOut, delay:1});
+}
+
 </script>
 
 </body>
