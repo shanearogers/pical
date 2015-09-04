@@ -1,63 +1,113 @@
 <!DOCTYPE html>
 <html>
-<head>
-<script src="cordova.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script>
-var watermark;
-var canvasDom;
-var canvas;
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
 
-function init() {
-	document.addEventListener("deviceready", startUp, false);
-}
-function startUp() {
-    canvasDom = $("#myCanvas")[0];
-    canvas = canvasDom.getContext("2d");
-    //Create a watermark image object
-    watermark = new Image();
-    watermark.src = "rk.png";
-    watermark.onload = function(e) {
-        //you can only take pictures once this is loaded...
-        $("#takePictureButton").removeAttr("disabled");
-    }
+            <h2> Camera Position </h2>
+            <input type="radio" name="deviceposition" id="deviceposition_back" value="Back" checked onclick="onChangeDevicePosition();"/>
+            <label for="deviceposition_back">Back</label>
+            <br/>
+            <input type="radio" name="deviceposition" id="deviceposition_front" value="Front" onclick="onChangeDevicePosition();"/>
+            <label for="deviceposition_front">Front</label>
 
-	$("#takePictureButton").on("touchstart", function(e) {
-		navigator.camera.getPicture(camSuccess, camError, {quality: 75, targetWidth: 400, targetHeight: 400, destinationType: Camera.DestinationType.FILE_URI});
-	});
-	function camError(e) {
-		console.log("Camera Error");
-		console.log(JSON.stringify(e));
-	}
-	function camSuccess(picuri) {
-		console.log("Camera Success");
-        var img = new Image();
-        img.src=picuri;
-        img.onload = function(e) {
-            canvas.drawImage(img, 0, 0);
-            canvas.drawImage(watermark, canvasDom.width-watermark.width, canvasDom.height - watermark.height);
-        }
 
-	}
-}
-</script>
-<style>
-    #myCanvas {
-        width: 400px;
-        height: 400px;
-    }
-</style>
-</head>
+            <h2> Flash Mode </h2>
+            <input type="radio" name="flashmode" id="flashmode_off" value="Off" checked onclick="onChangeFlashMode();"/>
+            <label for="flashmode_off">Off</label>
+            <br/>
+            <input type="radio" name="flashmode" id="flashmode_on" value="On" onclick="onChangeFlashMode();"/>
+            <label for="flashmode_on">On</label>
+            <br/>
+            <input type="radio" name="flashmode" id="flashmode_auto" value="Auto" onclick="onChangeFlashMode();"/>
+            <label for="flashmode_auto">Auto</label>
+            <br/>
 
-<body onload="init()">
+            <input type="button" value="Take a picture" onclick="onTakePicture();" />
 
-<h1>Watermark Test</h1>
 
-<button id="takePictureButton" disabled>Take a Picture</button>
+        </div>
 
-<p/>
+    <!— camera preview canvas —>
+        <canvas id="camera" width="352" height="288" style="border:2px"></canvas>
 
-<canvas id="myCanvas"></canvas>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
 
-</body>
+        <script>
+            document.addEventListener("deviceready", function() {
+                                          canvasMain = document.getElementById("camera");
+                                          CanvasCamera.initialize(canvasMain);
+                                          // define options
+                                          var opt = {
+                                              quality: 75,
+                                              destinationType: CanvasCamera.DestinationType.DATA_URL,
+                                              encodingType: CanvasCamera.EncodingType.JPEG,
+                                              saveToPhotoAlbum:true,
+                                              correctOrientation:true,
+                                              width:640,
+                                              height:480
+                                          };
+                                          CanvasCamera.start(opt);
+                                      });
+
+            function onChangeDevicePosition() {
+
+                var newDevicePosition = CanvasCamera.CameraPosition.BACK;
+                if (document.getElementById("deviceposition_back").checked)
+                {
+                    newDevicePosition = CanvasCamera.CameraPosition.BACK;
+                }
+                else if (document.getElementById("deviceposition_front").checked)
+                {
+                    newDevicePosition = CanvasCamera.CameraPosition.FRONT;
+                }
+                //
+                CanvasCamera.setCameraPosition(newDevicePosition);
+            }
+
+            function onChangeFlashMode() {
+
+                var newFlashMode = CanvasCamera.FlashMode.OFF;
+                if (document.getElementById("flashmode_off").checked)
+                {
+                    newFlashMode = CanvasCamera.FlashMode.OFF;
+                }
+                else if (document.getElementById("flashmode_on").checked)
+                {
+                    newFlashMode = CanvasCamera.FlashMode.ON;
+                }
+                else if (document.getElementById("flashmode_auto").checked)
+                {
+                    newFlashMode = CanvasCamera.FlashMode.AUTO;
+                }
+
+                CanvasCamera.setFlashMode(newFlashMode);
+            }
+
+            function onTakePicture() {
+                CanvasCamera.takePicture(onTakeSuccess);
+            }
+
+            function onTakeSuccess(data) {
+                //
+            }
+        </script>
+    </body>
 </html>
