@@ -139,7 +139,7 @@
   <title>Pical</title>
 </head>
 <body ng-controller="picalCtrl">
-
+<a href="camera.html">
 <div id="splash-page" style="width:{{ data.Settings.fakewidth + 'px' }};">
 </div>
 
@@ -226,7 +226,7 @@
   </div>
 </div>
 </div>
-
+</a>
 <script type="text/javascript" xsrc="cordova.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
@@ -234,6 +234,18 @@ app.initialize();
 
 var app = angular.module("picalApp", ["firebase"]);
 app.controller("picalCtrl", function($scope, $firebaseObject) {
+  var ref = new Firebase("https://pical.firebaseio.com");
+//  ref.createUser({
+//    email    : "jadein.e.rogers@gmail.com",
+//    password : "yoursecretpassword"
+//  }, function(error, userData) {
+//    if (error) {
+//      console.log("Error creating user:", error);
+//    } else {
+//      console.log("Successfully created user account with uid:", userData.uid);
+//    }
+//  });
+
   var data = new Firebase("https://pical.firebaseio.com");
   var dataObject = $firebaseObject(data);
   dataObject.$bindTo($scope, "data");
