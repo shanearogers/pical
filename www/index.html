@@ -36,7 +36,7 @@
             <label for="flashmode_auto">Auto</label>
             <br/>
 
-            <input type="button" value="Take a picture" onclick="onTakePicture();" />
+            <div onclick="onTakePicture();" style="background:#ffcccc;height:100px;width:100%;border-radius:5px;">Take a picture</div>
 
 
         </div>
@@ -53,7 +53,7 @@
         <script>
             document.addEventListener("deviceready", function() {
                                           canvasMain = document.getElementById("camera");
-                                          CanvasCamera.initialize(canvasMain);
+                                          window.plugin.CanvasCamera.initialize(canvasMain);
                                           // define options
                                           var opt = {
                                               quality: 75,
@@ -64,49 +64,16 @@
                                               width:640,
                                               height:480
                                           };
-                                          CanvasCamera.start(opt);
+                                          window.plugin.CanvasCamera.start(opt);
                                       });
 
-            function onChangeDevicePosition() {
-
-                var newDevicePosition = CanvasCamera.CameraPosition.BACK;
-                if (document.getElementById("deviceposition_back").checked)
-                {
-                    newDevicePosition = CanvasCamera.CameraPosition.BACK;
-                }
-                else if (document.getElementById("deviceposition_front").checked)
-                {
-                    newDevicePosition = CanvasCamera.CameraPosition.FRONT;
-                }
-                //
-                CanvasCamera.setCameraPosition(newDevicePosition);
-            }
-
-            function onChangeFlashMode() {
-
-                var newFlashMode = CanvasCamera.FlashMode.OFF;
-                if (document.getElementById("flashmode_off").checked)
-                {
-                    newFlashMode = CanvasCamera.FlashMode.OFF;
-                }
-                else if (document.getElementById("flashmode_on").checked)
-                {
-                    newFlashMode = CanvasCamera.FlashMode.ON;
-                }
-                else if (document.getElementById("flashmode_auto").checked)
-                {
-                    newFlashMode = CanvasCamera.FlashMode.AUTO;
-                }
-
-                CanvasCamera.setFlashMode(newFlashMode);
-            }
-
             function onTakePicture() {
-                CanvasCamera.takePicture(onTakeSuccess);
+                alert("Take photo");
+                window.plugin.CanvasCamera.takePicture(onTakeSuccess);
             }
 
             function onTakeSuccess(data) {
-                //
+                canvasMain.src = "data:image/jpeg;base64," + data;
             }
         </script>
     </body>
