@@ -37,7 +37,7 @@
   <gap:plugin name="org.apache.cordova.splashscreen"/>
   <gap:plugin name="org.apache.cordova.vibration"/>
   
-  <gap:plugin name="com.keith.cordova.plugin.canvascamera" version="1.0.1" />
+  <xgap:plugin name="com.keith.cordova.plugin.canvascamera" version="1.0.1" />
   
   <icon src="icon.png"/>
   <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>

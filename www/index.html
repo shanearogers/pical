@@ -1,283 +1,63 @@
 <!DOCTYPE html>
-<html ng-app="picalApp">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+<html>
+<head>
+<script src="cordova.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+var watermark;
+var canvasDom;
+var canvas;
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-        <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
-        <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/plugins/CSSPlugin.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/TweenLite.min.js"></script>
-        <!--
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/easing/EasePack.min.js"></script>
-        -->
-
-  <style>
-    body {
-      background-color: #F7941E;
-    }
-    #splash-page {
-      background-color: #F7941E;
-      background-image: url("img/splash.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      xbackground-attachment: fixed;
-      background-position: center;
-    }
-    #fakebody-wrapper {
-      overflow: hidden;
-    }
-    #fakebody {
-      background-color: #F7941E;
-      background-image: url("img/splash.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      xbackground-attachment: fixed;
-      background-position: center;
-    }
-    #header-bar {
-      padding-top: 12px;
-      padding-bottom: 3px;
-      background-color: #F7941E;
-      height: 30px;
-      border-bottom: 5px solid #44C8F5;
-      text-align: center;
-    }
-    #sidebar-handle {
-      width: 40px;
-      float: left;
-      padding-top: 5px;
-    }
-    #moment-images {
-      height: 70px;
-      width: 100%;
-      background: #ffffff;
-      padding-top: 7px;
-    }
-    #moment-title {
-      height: 24px;
-      background: #ffffff;
-      font-family: 'PT Sans', sans-serif;
-      font-size: 18px;
-      color: #111111;
-      text-align: center;
-      text-overflow: ellipsis;
-    }
-    #profile-images {
-      height: 42px;
-      width: calc(100% - 3px);
-      background: #ffffff;
-      padding-bottom: 2px;
-      padding-left: 3px;
-    }
-    #profile-images img {
-      border-radius: 5px;
-      border: 1px solid #44C8F5;
-    }
-    #next-moment-wrapper {
-      background: #44C8F5;
-      height: 340px;
-    }
-    #camera-shutter {
-      float: left;
-      width: 75%;
-    }
-    #countdown-clock {
-      position: relative;
-      top: -80px;
-      width: 88%;
-      text-align: center;
-      font-family: 'PT Sans', sans-serif;
-      font-size: 40px;
-      color: #cccccc;
-      padding-bottom: 80px;
-    }
-    #next-moment {
-      float: right;
-      width: 25%;
-      background: #dddddd;
-      height: calc(100% - 5px);
-      text-align: center;
-      padding-top: 5px;
-    }
-    #footer-bar {
-      background-color: #F7941E;
-      height: 30px;
-      border-top: 5px solid #44C8F5;
-      text-align: right;
-    }
-    #location {
-      position: relative;
-      top: -160px;
-      left: calc(100% - 190px);
-      width: 50px;
-      height: 50px;
-    }
-    #comment {
-      position: relative;
-      top: -160px;
-      left: calc(100% - 125px);
-      width: 50px;
-      height: 50px;
-    }
-    #photo {
-      position: relative;
-      top: -160px;
-      left: calc(100% - 60px);
-      width: 50px;
-      height: 50px;
-    }
-  </style>
-
-  <title>Pical</title>
-</head>
-<body ng-controller="picalCtrl">
-<a href="camera.html">
-<div id="splash-page" style="width:{{ data.Settings.fakewidth + 'px' }};">
-</div>
-
-<div id="fakebody-wrapper" style="width:{{ data.Settings.fakewidth + 'px' }};height:{{ data.Settings.fakeheight + 'px' }}">
-<div id="fakebody" style="width:{{ data.Settings.fakewidth + 'px' }};height:{{ data.Settings.fakeheight + 'px' }}">
-
-  <div id="header-bar">
-    <img src="img/logo.png" style="width:55px;height:38px;";>
-
-    <div id="sidebar-handle" onClick="clickedSidebarHandle()">
-      <img src="img/sidebar-handle.png" width="100%">
-    </div>
-
-  </div>
-
-  <div id="moments-wrapper">
-
-    <div id="moment-images">
-      <img src="img/temp/moment-images.png" width="100%" height="100%">
-    </div>
-
-    <div id="moment-title">
-      {{ data.lastmoment }}
-    </div>
-
-    <div id="profile-images">
-      <span ng-repeat="joiner in thislast.joined">
-        <span ng-if="showGravatar(joiner)"><img src="http://www.gravatar.com/avatar/{{ joiner.userid }}?s=40&d=mm"></span>
-        <span ng-if="showFacebookProfilePic(joiner)"><img src="http://graph.facebook.com/{{ joiner.userid }}/picture?type=square" style="width:40px;height:40px;"></span>
-        <span ng-if="showTwitterProfilePic(joiner)"><img src="https://twitter.com/{{ joiner.userid }}/profile_image?size=normal" style="width:40px;height:40px;"></span>
-      </span>
-    </div>
-
-    <div id="next-moment-wrapper">
-
-      <div id="camera-shutter">
-        <img src="img/shutter.png"  width="100%" height="100%">
-        <div id="countdown-clock">07:06:45</div>
-      </div>
-
-      <div id="next-moment">
-        <img src="img/group.png"  width="50%"><br>
-        4,354<br>
-        Joined<br>
-        <img src="img/join.png"  width="80%">
-        <p>Friday<br>4:10PM</p>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div id="footer-bar">
-
-    <div id="location">
-      <img src="img/location.png" width="100%">
-    </div>
-
-    <div id="comment">
-      <img src="img/comment.png" width="100%">
-    </div>
-
-    <div id="photo">
-      <img src="img/photo.png" width="100%">
-    </div>
-  </div>
-
-    <!--
-    <button ng-click="login('facebook')"><img src="img/facebook.png"></button>
-    <button ng-click="login_anonymous()"><img src="img/twitter.png"></button>
-    <button ng-click="login_anonymous()"><img src="img/googleplus.png"></button>
-    <button ng-click="logout()"><img src="img/email.png"></button>
-
-    <p ng-if="authData">Logged in user: <strong>{{ authData.uid }}</strong></p>
-    <p ng-if="error">Error: <strong>{{ error }}</strong></p>
-
-    <p ng-repeat="moment in moments">
-      <img src="{{moment.profilepic}}">
-      <img src="http://www.gravatar.com/avatar/{{moment.gravatarhash}}?s=32&d=mm">
-      <span>{{moment.Name}}</span>
-    </p>
-    -->
-
-  </div>
-</div>
-</div>
-</a>
-<script type="text/javascript" src="cordova.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript">
-app.initialize();
-
-var app = angular.module("picalApp", ["firebase"]);
-app.controller("picalCtrl", function($scope, $firebaseObject) {
-  var ref = new Firebase("https://pical.firebaseio.com");
-//  ref.createUser({
-//    email    : "jadein.e.rogers@gmail.com",
-//    password : "yoursecretpassword"
-//  }, function(error, userData) {
-//    if (error) {
-//      console.log("Error creating user:", error);
-//    } else {
-//      console.log("Successfully created user account with uid:", userData.uid);
-//    }
-//  });
-
-  var data = new Firebase("https://pical.firebaseio.com");
-  var dataObject = $firebaseObject(data);
-  dataObject.$bindTo($scope, "data");
-
-  var user = new Firebase("https://pical.firebaseio.com/9a3221d34738e484f5529ad4fc051139");
-  var userObject = $firebaseObject(user);
-  userObject.$bindTo($scope, "thisuser");
-
-  var thislast = new Firebase("https://pical.firebaseio.com/Moments/345");
-  var thislastObject = $firebaseObject(thislast);
-  thislastObject.$bindTo($scope, "thislast");
-  console.log(thislastObject);
-
-  $scope.showGravatar = function(joiner) {
-    return joiner.source == 'gravatar';
-  }
-
-  $scope.showFacebookProfilePic = function(joiner) {
-    return joiner.source == 'facebook';
-  }
-  $scope.showTwitterProfilePic = function(joiner) {
-    return joiner.source == 'twitter';
-  }
-
-});
-
-function clickedSidebarHandle() {
-  var sbh = document.getElementById("fakebody");
-  TweenLite.to(sbh, 1, {paddingLeft:"200px"});
+function init() {
+	document.addEventListener("deviceready", startUp, false);
 }
+function startUp() {
+    canvasDom = $("#myCanvas")[0];
+    canvas = canvasDom.getContext("2d");
+    //Create a watermark image object
+    watermark = new Image();
+    watermark.src = "rk.png";
+    watermark.onload = function(e) {
+        //you can only take pictures once this is loaded...
+        $("#takePictureButton").removeAttr("disabled");
+    }
 
+	$("#takePictureButton").on("touchstart", function(e) {
+		navigator.camera.getPicture(camSuccess, camError, {quality: 75, targetWidth: 400, targetHeight: 400, destinationType: Camera.DestinationType.FILE_URI});
+	});
+	function camError(e) {
+		console.log("Camera Error");
+		console.log(JSON.stringify(e));
+	}
+	function camSuccess(picuri) {
+		console.log("Camera Success");
+        var img = new Image();
+        img.src=picuri;
+        img.onload = function(e) {
+            canvas.drawImage(img, 0, 0);
+            canvas.drawImage(watermark, canvasDom.width-watermark.width, canvasDom.height - watermark.height);
+        }
+
+	}
+}
 </script>
+<style>
+    #myCanvas {
+        width: 400px;
+        height: 400px;
+    }
+</style>
+</head>
+
+<body onload="init()">
+
+<h1>Watermark Test</h1>
+
+<button id="takePictureButton" disabled>Take a Picture</button>
+
+<p/>
+
+<canvas id="myCanvas"></canvas>
 
 </body>
 </html>
