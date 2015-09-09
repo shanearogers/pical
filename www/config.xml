@@ -37,8 +37,6 @@
   <gap:plugin name="org.apache.cordova.splashscreen"/>
   <gap:plugin name="org.apache.cordova.vibration"/>
   
-  <xgap:plugin name="com.keith.cordova.plugin.canvascamera" version="1.0.1" />
-  <gap:plugin name="com.jordanmaduro.cordova.plugin.canvascamera2" version="1.0.17" />
   
   <icon src="icon.png"/>
   <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
@@ -65,8 +63,12 @@
   <gap:splash src="www/res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/>
   <gap:splash src="www/res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768"/>
   <gap:splash src="www/res/screen/windows-phone/screen-portrait.jpg" gap:platform="winphone"/>
+  
   <access origin="*"/>
+  
   <plugin name="cordova-plugin-whitelist" version="1"/>
+  <gap:plugin name="com.mbppower.camerapreview" version="0.0.8" />
+  
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
