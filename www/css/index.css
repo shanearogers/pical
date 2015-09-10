@@ -120,7 +120,7 @@ h1 {
     }
     #splash-page {
       background-color: #F7941E;
-      background-image: url("img/splash.png");
+      background-image: url("../img/splash.png");
       background-size: contain;
       background-repeat: no-repeat;
       xbackground-attachment: fixed;
@@ -131,7 +131,7 @@ h1 {
     }
     #fakebody {
       background-color: #F7941E;
-      background-image: url("img/splash.png");
+      background-image: url("../img/splash.png");
       background-size: contain;
       background-repeat: no-repeat;
       xbackground-attachment: fixed;

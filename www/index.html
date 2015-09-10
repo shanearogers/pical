@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="picalApp">
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
@@ -7,9 +7,9 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-        <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
-        <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+        <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
 
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <meta name="msapplication-tap-highlight" content="no" />
@@ -44,9 +44,11 @@
 
     <div id="profile-images">
       <span ng-repeat="joiner in thislast.joined">
-        <span ng-if="showGravatar(joiner)"><img src="http://www.gravatar.com/avatar/{{ joiner.userid }}?s=40&d=mm"></span>
-        <span ng-if="showFacebookProfilePic(joiner)"><img src="http://graph.facebook.com/{{ joiner.userid }}/picture?type=square" style="width:40px;height:40px;"></span>
-        <span ng-if="showTwitterProfilePic(joiner)"><img src="https://twitter.com/{{ joiner.userid }}/profile_image?size=normal" style="width:40px;height:40px;"></span>
+        <!--
+        <span ng-if="showGravatar(joiner)"><ximg src="http://www.gravatar.com/avatar/{{ joiner.userid }}?s=40&d=mm"></span>
+        <span ng-if="showFacebookProfilePic(joiner)"><ximg src="http://graph.facebook.com/{{ joiner.userid }}/picture?type=square" style="width:40px;height:40px;"></span>
+        <span ng-if="showTwitterProfilePic(joiner)"><ximg src="https://twitter.com/{{ joiner.userid }}/profile_image?size=normal" style="width:40px;height:40px;"></span>
+        -->
       </span>
     </div>
 
@@ -104,40 +106,38 @@
   </div>
 </div>
 </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+app.initialize();
 
-  var picalApp = angular.module("picalApp", ["firebase"]);
-  picalApp.controller("picalCtrl", function($scope, $firebaseObject) {
-
+var picApp = angular.module("picalApp", ["firebase"]);
+picApp.controller("picalCtrl", function($scope, $firebaseObject) {
   var data = new Firebase("https://pical.firebaseio.com");
   var dataObject = $firebaseObject(data);
   dataObject.$bindTo($scope, "data");
-
-  var user = new Firebase("https://pical.firebaseio.com/9a3221d34738e484f5529ad4fc051139");
-  var userObject = $firebaseObject(user);
-  userObject.$bindTo($scope, "thisuser");
-
-  var thislast = new Firebase("https://pical.firebaseio.com/Moments/345");
-  var thislastObject = $firebaseObject(thislast);
-  thislastObject.$bindTo($scope, "thislast");
-
-  $scope.showGravatar = function(joiner) {
-    return joiner.source == 'gravatar';
-  }
-
-  $scope.showFacebookProfilePic = function(joiner) {
-    return joiner.source == 'facebook';
-  }
-  $scope.showTwitterProfilePic = function(joiner) {
-    return joiner.source == 'twitter';
-  }
-
+  console.log($scope);
+  $scope.$watch('data.lastmoment', function() {
+         onTakePicture();
+   });
 });
 
+//var picApp = angular.module("picalApp", ["firebase"]);
+//picApp.controller("picalCtrl", function($scope, $firebaseObject) {
+//alert("Ready");
+//  var data = new Firebase("https://pical.firebaseio.com");
+//  var dataObject = $firebaseObject(data).$bindTo($scope, "data");
+//  var user = new Firebase("https://pical.firebaseio.com/9a3221d34738e484f5529ad4fc051139");
+//  var userObject = $firebaseObject(user).$bindTo($scope, "thisuser");
+//  var thislast = new Firebase("https://pical.firebaseio.com/Moments/345");
+//  var thislastObject = $firebaseObject(thislast).$bindTo($scope, "thislast");
+//  $scope.showGravatar           = function(joiner) { return joiner.source == 'gravatar'; }
+//  $scope.showFacebookProfilePic = function(joiner) { return joiner.source == 'facebook'; }
+//  $scope.showTwitterProfilePic  = function(joiner) { return joiner.source == 'twitter';  }
+//});
+
 function onTakePicture() {
+  console.log("Take a picture");
   CanvasCamera.takePicture(onTakeSuccess);
 }
 
@@ -145,6 +145,8 @@ function onTakeSuccess(data) {
   alert("Photo taken")
   //
 }
+
+
 </script>
     </body>
 </html>

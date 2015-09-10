@@ -37,7 +37,7 @@ var app = {
         CanvasCamera.initialize(canvasMain);
         // define options
         var opt = {
-            quality: 75,
+            quality: 15,
             destinationType: CanvasCamera.DestinationType.DATA_URL,
             encodingType: CanvasCamera.EncodingType.JPEG,
             saveToPhotoAlbum:true,
@@ -46,7 +46,6 @@ var app = {
             height:480
         };
         CanvasCamera.start(opt);
-
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
