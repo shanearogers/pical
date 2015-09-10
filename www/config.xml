@@ -2,7 +2,7 @@
   <name>Pical</name>
   <description>First draft at building PICAL.</description>
   <author href="http://sharoger.com" email="sharoger@gmail.com">Shane Rogers</author>
-  <content src="camera.html"/>
+  <content src="index.html"/>
   
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="default"/>
