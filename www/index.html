@@ -8,16 +8,212 @@
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <meta name="msapplication-tap-highlight" content="no" />
         <title>PICAL</title>
-    </head>
-    <body>
-        <div>
-            <h1>Camera Example</h1>
-            <input type="button" value="Take a picture" onclick="onTakePicture();" />
-        </div>
+  <style>
+    body {
+      background-color: #F7941E;
+    }
+    #splash-page {
+      background-color: #F7941E;
+      background-image: url("img/splash.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      xbackground-attachment: fixed;
+      background-position: center;
+    }
+    #fakebody-wrapper {
+      overflow: hidden;
+    }
+    #fakebody {
+      background-color: #F7941E;
+      background-image: url("img/splash.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      xbackground-attachment: fixed;
+      background-position: center;
+    }
+    #header-bar {
+      padding-top: 12px;
+      padding-bottom: 3px;
+      background-color: #F7941E;
+      height: 30px;
+      border-bottom: 5px solid #44C8F5;
+      text-align: center;
+    }
+    #sidebar-handle {
+      width: 40px;
+      float: left;
+      padding-top: 5px;
+    }
+    #moment-images {
+      height: 70px;
+      width: 100%;
+      background: #ffffff;
+      padding-top: 7px;
+    }
+    #moment-title {
+      height: 24px;
+      background: #ffffff;
+      font-family: 'PT Sans', sans-serif;
+      font-size: 18px;
+      color: #111111;
+      text-align: center;
+      text-overflow: ellipsis;
+    }
+    #profile-images {
+      height: 42px;
+      width: calc(100% - 3px);
+      background: #ffffff;
+      padding-bottom: 2px;
+      padding-left: 3px;
+    }
+    #profile-images img {
+      border-radius: 5px;
+      border: 1px solid #44C8F5;
+    }
+    #next-moment-wrapper {
+      background: #44C8F5;
+      height: 340px;
+    }
+    #camera-shutter {
+      float: left;
+      width: 75%;
+    }
+    #countdown-clock {
+      position: relative;
+      top: -80px;
+      width: 88%;
+      text-align: center;
+      font-family: 'PT Sans', sans-serif;
+      font-size: 40px;
+      color: #cccccc;
+      padding-bottom: 80px;
+    }
+    #next-moment {
+      float: right;
+      width: 25%;
+      background: #dddddd;
+      height: calc(100% - 5px);
+      text-align: center;
+      padding-top: 5px;
+    }
+    #footer-bar {
+      background-color: #F7941E;
+      height: 30px;
+      border-top: 5px solid #44C8F5;
+      text-align: right;
+    }
+    #location {
+      position: relative;
+      top: -160px;
+      left: calc(100% - 190px);
+      width: 50px;
+      height: 50px;
+    }
+    #comment {
+      position: relative;
+      top: -160px;
+      left: calc(100% - 125px);
+      width: 50px;
+      height: 50px;
+    }
+    #photo {
+      position: relative;
+      top: -160px;
+      left: calc(100% - 60px);
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+</head>
 
-        <!— camera preview canvas —>
-        <canvas id="camera" width="352" height="288" style="border:2px"></canvas>
+<body ng-controller="picalCtrl">
+<div id="splash-page" style="width:{{ data.Settings.fakewidth + 'px' }};">
+</div>
 
+<div id="fakebody-wrapper" style="width:{{ data.Settings.fakewidth + 'px' }};height:{{ data.Settings.fakeheight + 'px' }}">
+<div id="fakebody" style="width:{{ data.Settings.fakewidth + 'px' }};height:{{ data.Settings.fakeheight + 'px' }}">
+
+  <div id="header-bar">
+    <img src="img/logo.png" style="width:55px;height:38px;";>
+
+    <div id="sidebar-handle" xonClick="clickedSidebarHandle()" onclick="onTakePicture();">
+      <img src="img/sidebar-handle.png" width="100%">
+    </div>
+
+  </div>
+
+  <div id="moments-wrapper">
+
+    <div id="moment-images">
+      <img src="img/temp/moment-images.png" width="100%" height="100%">
+    </div>
+
+    <div id="moment-title">
+      {{ data.lastmoment }}
+    </div>
+
+    <div id="profile-images">
+      <span ng-repeat="joiner in thislast.joined">
+        <span ng-if="showGravatar(joiner)"><img src="http://www.gravatar.com/avatar/{{ joiner.userid }}?s=40&d=mm"></span>
+        <span ng-if="showFacebookProfilePic(joiner)"><img src="http://graph.facebook.com/{{ joiner.userid }}/picture?type=square" style="width:40px;height:40px;"></span>
+        <span ng-if="showTwitterProfilePic(joiner)"><img src="https://twitter.com/{{ joiner.userid }}/profile_image?size=normal" style="width:40px;height:40px;"></span>
+      </span>
+    </div>
+
+    <div id="next-moment-wrapper">
+
+      <div id="camera-shutter">
+        <canvas id="camera" width="100%" height="100%" style="border:2px solid black"></canvas>
+        <ximg src="img/shutter.png"  width="100%" height="100%">
+        <div id="countdown-clock">07:06:45</div>
+      </div>
+
+      <div id="next-moment">
+        <img src="img/group.png"  width="50%"><br>
+        4,354<br>
+        Joined<br>
+        <img src="img/join.png"  width="80%">
+        <p>Friday<br>4:10PM</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="footer-bar">
+
+    <div id="location">
+      <img src="img/location.png" width="100%">
+    </div>
+
+    <div id="comment">
+      <img src="img/comment.png" width="100%">
+    </div>
+
+    <div id="photo">
+      <img src="img/photo.png" width="100%">
+    </div>
+  </div>
+
+    <!--
+    <button ng-click="login('facebook')"><img src="img/facebook.png"></button>
+    <button ng-click="login_anonymous()"><img src="img/twitter.png"></button>
+    <button ng-click="login_anonymous()"><img src="img/googleplus.png"></button>
+    <button ng-click="logout()"><img src="img/email.png"></button>
+
+    <p ng-if="authData">Logged in user: <strong>{{ authData.uid }}</strong></p>
+    <p ng-if="error">Error: <strong>{{ error }}</strong></p>
+
+    <p ng-repeat="moment in moments">
+      <img src="{{moment.profilepic}}">
+      <img src="http://www.gravatar.com/avatar/{{moment.gravatarhash}}?s=32&d=mm">
+      <span>{{moment.Name}}</span>
+    </p>
+    -->
+
+  </div>
+</div>
+</div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
