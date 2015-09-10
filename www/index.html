@@ -109,19 +109,8 @@
         <script type="text/javascript">
             app.initialize();
 
-var picalApp = angular.module("picalApp", ["firebase"]);
-picalApp.controller("picalCtrl", function($scope, $firebaseObject) {
-  var ref = new Firebase("https://pical.firebaseio.com");
-//  ref.createUser({
-//    email    : "jadein.e.rogers@gmail.com",
-//    password : "yoursecretpassword"
-//  }, function(error, userData) {
-//    if (error) {
-//      console.log("Error creating user:", error);
-//    } else {
-//      console.log("Successfully created user account with uid:", userData.uid);
-//    }
-//  });
+  var picalApp = angular.module("picalApp", ["firebase"]);
+  picalApp.controller("picalCtrl", function($scope, $firebaseObject) {
 
   var data = new Firebase("https://pical.firebaseio.com");
   var dataObject = $firebaseObject(data);
@@ -134,7 +123,6 @@ picalApp.controller("picalCtrl", function($scope, $firebaseObject) {
   var thislast = new Firebase("https://pical.firebaseio.com/Moments/345");
   var thislastObject = $firebaseObject(thislast);
   thislastObject.$bindTo($scope, "thislast");
-  console.log(thislastObject);
 
   $scope.showGravatar = function(joiner) {
     return joiner.source == 'gravatar';
@@ -148,11 +136,6 @@ picalApp.controller("picalCtrl", function($scope, $firebaseObject) {
   }
 
 });
-
-function clickedSidebarHandle() {
-  var sbh = document.getElementById("fakebody");
-  TweenLite.to(sbh, 1, {paddingLeft:"200px"});
-}
 
 function onTakePicture() {
   CanvasCamera.takePicture(onTakeSuccess);
