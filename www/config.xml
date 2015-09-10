@@ -1,8 +1,9 @@
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.snapshotapps.pical" version="1.0.0">
   <name>Pical</name>
-  <description>Hello World sample application that responds to the deviceready event.</description>
-  <author href="http://phonegap.com" email="support@phonegap.com">PhoneGap Team</author>
+  <description>First draft at building PICAL.</description>
+  <author href="http://sharoger.com" email="sharoger@gmail.com">Shane Rogers</author>
   <content src="camera.html"/>
+  
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="default"/>
   <preference name="target-device" value="universal"/>
@@ -18,6 +19,7 @@
   <preference name="disable-cursor" value="false"/>
   <preference name="android-minSdkVersion" value="14"/>
   <preference name="android-installLocation" value="auto"/>
+  
   <gap:plugin name="org.apache.cordova.battery-status"/>
   <gap:plugin name="org.apache.cordova.camera"/>
   <gap:plugin name="org.apache.cordova.media-capture"/>
@@ -37,6 +39,7 @@
   <gap:plugin name="org.apache.cordova.splashscreen"/>
   <gap:plugin name="org.apache.cordova.vibration"/>
   
+  <gap:plugin name="com.keith.cordova.plugin.canvascamera" version="1.0.1" />
   
   <icon src="icon.png"/>
   <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
@@ -67,7 +70,6 @@
   <access origin="*"/>
   
   <plugin name="cordova-plugin-whitelist" version="1"/>
-  <gap:plugin name="com.keith.cordova.plugin.canvascamera" version="1.0.1" />
   
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
