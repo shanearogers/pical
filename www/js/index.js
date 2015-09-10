@@ -37,7 +37,7 @@ var app = {
         CanvasCamera.initialize(canvasMain);
         // define options
         var opt = {
-            quality: 15,
+            quality: 100,
             destinationType: CanvasCamera.DestinationType.DATA_URL,
             encodingType: CanvasCamera.EncodingType.JPEG,
             saveToPhotoAlbum:true,
