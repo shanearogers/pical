@@ -5,6 +5,12 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
+
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <meta name="msapplication-tap-highlight" content="no" />
         <title>PICAL</title>
@@ -219,52 +225,60 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
-        </script>
 
-        <script>
+var app = angular.module("picalApp", ["firebase"]);
+app.controller("picalCtrl", function($scope, $firebaseObject) {
+  var ref = new Firebase("https://pical.firebaseio.com");
+//  ref.createUser({
+//    email    : "jadein.e.rogers@gmail.com",
+//    password : "yoursecretpassword"
+//  }, function(error, userData) {
+//    if (error) {
+//      console.log("Error creating user:", error);
+//    } else {
+//      console.log("Successfully created user account with uid:", userData.uid);
+//    }
+//  });
 
-            function onChangeDevicePosition() {
+  var data = new Firebase("https://pical.firebaseio.com");
+  var dataObject = $firebaseObject(data);
+  dataObject.$bindTo($scope, "data");
 
-                var newDevicePosition = CanvasCamera.CameraPosition.BACK;
-//                if (document.getElementById("deviceposition_back").checked)
-//                {
-//                    newDevicePosition = CanvasCamera.CameraPosition.BACK;
-//                }
-//                else if (document.getElementById("deviceposition_front").checked)
-//                {
-//                    newDevicePosition = CanvasCamera.CameraPosition.FRONT;
-//                }
-//                //
-                CanvasCamera.setCameraPosition(newDevicePosition);
-            }
+  var user = new Firebase("https://pical.firebaseio.com/9a3221d34738e484f5529ad4fc051139");
+  var userObject = $firebaseObject(user);
+  userObject.$bindTo($scope, "thisuser");
 
-            function onChangeFlashMode() {
+  var thislast = new Firebase("https://pical.firebaseio.com/Moments/345");
+  var thislastObject = $firebaseObject(thislast);
+  thislastObject.$bindTo($scope, "thislast");
+  console.log(thislastObject);
 
-                var newFlashMode = CanvasCamera.FlashMode.OFF;
-//                if (document.getElementById("flashmode_off").checked)
-//                {
-//                    newFlashMode = CanvasCamera.FlashMode.OFF;
-//                }
-//                else if (document.getElementById("flashmode_on").checked)
-//                {
-//                    newFlashMode = CanvasCamera.FlashMode.ON;
-//                }
-//                else if (document.getElementById("flashmode_auto").checked)
-//                {
-//                    newFlashMode = CanvasCamera.FlashMode.AUTO;
-//                }
-//
-                CanvasCamera.setFlashMode(newFlashMode);
-            }
+  $scope.showGravatar = function(joiner) {
+    return joiner.source == 'gravatar';
+  }
 
-            function onTakePicture() {
-                CanvasCamera.takePicture(onTakeSuccess);
-            }
+  $scope.showFacebookProfilePic = function(joiner) {
+    return joiner.source == 'facebook';
+  }
+  $scope.showTwitterProfilePic = function(joiner) {
+    return joiner.source == 'twitter';
+  }
 
-            function onTakeSuccess(data) {
-                alert("Photo taken")
-                //
-            }
-        </script>
+});
+
+function clickedSidebarHandle() {
+  var sbh = document.getElementById("fakebody");
+  TweenLite.to(sbh, 1, {paddingLeft:"200px"});
+}
+
+function onTakePicture() {
+  CanvasCamera.takePicture(onTakeSuccess);
+}
+
+function onTakeSuccess(data) {
+  alert("Photo taken")
+  //
+}
+</script>
     </body>
 </html>
