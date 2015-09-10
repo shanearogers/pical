@@ -47,7 +47,7 @@ var app = {
             width:640,
             height:480
         };
-        //CanvasCamera.start(opt);
+        CanvasCamera.start(opt);
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
