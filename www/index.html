@@ -233,12 +233,6 @@
 <script type="text/javascript">
 app.initialize();
 
-var tapEnabled = true; //enable tap take picture
-var dragEnabled = true; //enable preview box drag across the screen
-var toBack = false; //send preview box to the back of the webview
-var rect = {x: 0, y: 0, width: 200, height:200};
-cordova.plugins.camerapreview.startCamera(rect, "back", tapEnabled, dragEnabled, toBack)
-
 var app = angular.module("picalApp", ["firebase"]);
 app.controller("picalCtrl", function($scope, $firebaseObject) {
   var ref = new Firebase("https://pical.firebaseio.com");
@@ -283,14 +277,15 @@ function clickedSidebarHandle() {
   var sbh = document.getElementById("fakebody");
   TweenLite.to(sbh, 1, {paddingLeft:"200px"});
 }
-            function onTakePicture() {
-                CanvasCamera.takePicture(onTakeSuccess);
-            }
 
-            function onTakeSuccess(data) {
-                alert("Photo taken")
-                //
-            }
+function onTakePicture() {
+  CanvasCamera.takePicture(onTakeSuccess);
+}
+
+function onTakeSuccess(data) {
+  alert("Photo taken")
+  //
+}
 
 </script>
 
