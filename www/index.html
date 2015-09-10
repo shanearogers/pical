@@ -14,123 +14,6 @@
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <meta name="msapplication-tap-highlight" content="no" />
         <title>PICAL</title>
-  <style>
-    body {
-      background-color: #F7941E;
-    }
-    #splash-page {
-      background-color: #F7941E;
-      background-image: url("img/splash.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      xbackground-attachment: fixed;
-      background-position: center;
-    }
-    #fakebody-wrapper {
-      overflow: hidden;
-    }
-    #fakebody {
-      background-color: #F7941E;
-      background-image: url("img/splash.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      xbackground-attachment: fixed;
-      background-position: center;
-    }
-    #header-bar {
-      padding-top: 12px;
-      padding-bottom: 3px;
-      background-color: #F7941E;
-      height: 30px;
-      border-bottom: 5px solid #44C8F5;
-      text-align: center;
-    }
-    #sidebar-handle {
-      width: 40px;
-      float: left;
-      padding-top: 5px;
-    }
-    #moment-images {
-      height: 70px;
-      width: 100%;
-      background: #ffffff;
-      padding-top: 7px;
-    }
-    #moment-title {
-      height: 24px;
-      background: #ffffff;
-      font-family: 'PT Sans', sans-serif;
-      font-size: 18px;
-      color: #111111;
-      text-align: center;
-      text-overflow: ellipsis;
-    }
-    #profile-images {
-      height: 42px;
-      width: calc(100% - 3px);
-      background: #ffffff;
-      padding-bottom: 2px;
-      padding-left: 3px;
-    }
-    #profile-images img {
-      border-radius: 5px;
-      border: 1px solid #44C8F5;
-    }
-    #next-moment-wrapper {
-      background: #44C8F5;
-      height: 340px;
-    }
-    #camera-shutter {
-      float: left;
-      width: 75%;
-      overflow: hidden;
-    }
-    #countdown-clock {
-      position: relative;
-      top: -80px;
-      width: 88%;
-      text-align: center;
-      font-family: 'PT Sans', sans-serif;
-      font-size: 40px;
-      color: #cccccc;
-      padding-bottom: 80px;
-    }
-    #next-moment {
-      float: right;
-      width: 25%;
-      background: #dddddd;
-      height: calc(100% - 5px);
-      text-align: center;
-      padding-top: 5px;
-    }
-    #footer-bar {
-      background-color: #F7941E;
-      height: 30px;
-      border-top: 5px solid #44C8F5;
-      text-align: right;
-    }
-    #location {
-      position: relative;
-      top: -160px;
-      left: calc(100% - 190px);
-      width: 50px;
-      height: 50px;
-    }
-    #comment {
-      position: relative;
-      top: -160px;
-      left: calc(100% - 125px);
-      width: 50px;
-      height: 50px;
-    }
-    #photo {
-      position: relative;
-      top: -160px;
-      left: calc(100% - 60px);
-      width: 50px;
-      height: 50px;
-    }
-  </style>
 </head>
 
 <body ng-controller="picalCtrl">
@@ -226,8 +109,8 @@
         <script type="text/javascript">
             app.initialize();
 
-var app = angular.module("picalApp", ["firebase"]);
-app.controller("picalCtrl", function($scope, $firebaseObject) {
+var picalApp = angular.module("picalApp", ["firebase"]);
+picalApp.controller("picalCtrl", function($scope, $firebaseObject) {
   var ref = new Firebase("https://pical.firebaseio.com");
 //  ref.createUser({
 //    email    : "jadein.e.rogers@gmail.com",
