@@ -25,21 +25,6 @@
         </script>
 
         <script>
-            document.addEventListener("deviceready", function() {
-                                          canvasMain = document.getElementById("camera");
-                                          CanvasCamera.initialize(canvasMain);
-                                          // define options
-                                          var opt = {
-                                              quality: 75,
-                                              destinationType: CanvasCamera.DestinationType.DATA_URL,
-                                              encodingType: CanvasCamera.EncodingType.JPEG,
-                                              saveToPhotoAlbum:true,
-                                              correctOrientation:true,
-                                              width:640,
-                                              height:480
-                                          };
-                                          CanvasCamera.start(opt);
-                                      });
 
             function onChangeDevicePosition() {
 

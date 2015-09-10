@@ -33,6 +33,20 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
+        canvasMain = document.getElementById("camera");
+        CanvasCamera.initialize(canvasMain);
+        // define options
+        var opt = {
+            quality: 75,
+            destinationType: CanvasCamera.DestinationType.DATA_URL,
+            encodingType: CanvasCamera.EncodingType.JPEG,
+            saveToPhotoAlbum:true,
+            correctOrientation:true,
+            width:640,
+            height:480
+        };
+        CanvasCamera.start(opt);
+
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
