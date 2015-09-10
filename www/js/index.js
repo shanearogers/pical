@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var opt = {};
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -36,7 +38,7 @@ var app = {
         canvasMain = document.getElementById("camera");
         CanvasCamera.initialize(canvasMain);
         // define options
-        var opt = {
+        opt = {
             quality: 100,
             destinationType: CanvasCamera.DestinationType.DATA_URL,
             encodingType: CanvasCamera.EncodingType.JPEG,
@@ -45,7 +47,7 @@ var app = {
             width:640,
             height:480
         };
-        CanvasCamera.start(opt);
+        //CanvasCamera.start(opt);
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event

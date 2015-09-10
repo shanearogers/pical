@@ -75,7 +75,7 @@
   <div id="footer-bar">
 
     <div id="location">
-      <img src="img/location.png" width="100%">
+      <img src="img/location.png" width="100%" onclick="checkLocale()">
     </div>
 
     <div id="comment">
@@ -83,7 +83,7 @@
     </div>
 
     <div id="photo">
-      <img src="img/photo.png" width="100%">
+      <img src="img/photo.png" width="100%" onclick="CanvasCamera.start(opt)">
     </div>
   </div>
 
@@ -135,6 +135,12 @@ picApp.controller("picalCtrl", function($scope, $firebaseObject) {
 //  $scope.showFacebookProfilePic = function(joiner) { return joiner.source == 'facebook'; }
 //  $scope.showTwitterProfilePic  = function(joiner) { return joiner.source == 'twitter';  }
 //});
+
+function checkLocale() {
+      navigator.globalization.getLocaleName(
+        function (locale) {alert('locale: ' + locale.value + '\n');},
+        function () {alert('Error getting locale\n');}
+      );
 
 function onTakePicture() {
   console.log("Take a picture");
