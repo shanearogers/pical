@@ -17,75 +17,64 @@
 </head>
 
 <body ng-controller="picalCtrl">
-<div id="splash-page" style="width:{{ data.Settings.fakewidth + 'px' }};">
-</div>
-
 <div id="fakebody-wrapper" style="width:{{ data.Settings.fakewidth + 'px' }};height:{{ data.Settings.fakeheight + 'px' }}">
 <div id="fakebody" style="width:{{ data.Settings.fakewidth + 'px' }};height:{{ data.Settings.fakeheight + 'px' }}">
 
-  <div id="header-bar">
-    <img src="img/logo.png" style="width:55px;height:38px;";>
+    <div id="header-bar">
+        <img src="img/logo.png" style="width:55px;height:38px;";>
 
-    <div id="sidebar-handle" xonClick="clickedSidebarHandle()" onclick="onTakePicture();">
-      <img src="img/sidebar-handle.png" width="100%">
+        <div id="sidebar-handle" xonClick="clickedSidebarHandle()" onclick="onTakePicture();">
+            <img src="img/sidebar-handle.png" width="100%">
+        </div>
+
     </div>
 
-  </div>
+    <div id="moments-wrapper">
 
-  <div id="moments-wrapper">
+        <div id="moment-images">
+            <img src="img/temp/moment-images.png" width="100%" height="100%">
+        </div>
 
-    <div id="moment-images">
-      <img src="img/temp/moment-images.png" width="100%" height="100%">
+        <div id="moment-title">
+            {{ data.lastmoment }}
+        </div>
+
+        <div id="profile-images">
+            <span ng-repeat="joiner in thislast.joined">
+                
+                <span ng-if="showGravatar(joiner)"><img src="http://www.gravatar.com/avatar/{{ joiner.userid }}?s=40&d=mm"></span>
+                <span ng-if="showFacebookProfilePic(joiner)"><img src="http://graph.facebook.com/{{ joiner.userid }}/picture?type=square" style="width:40px;height:40px;"></span>
+                <span ng-if="showTwitterProfilePic(joiner)"><img src="https://twitter.com/{{ joiner.userid }}/profile_image?size=normal" style="width:40px;height:40px;"></span>
+                
+            </span>
+        </div>
+
+        <div id="next-moment-wrapper">
+            <div id="camera-shutter">
+                <canvas id="camera" width="100%" height="100%" style="border:2px solid black; overflow: hidden;"></canvas>
+                <img src="img/shutter.png"  width="100%" height="100%">
+            </div>
+            <div id="next-moment">
+                <img src="img/group.png"  width="50%"><br>
+                4,354<br>
+                Joined<br>
+                <img src="img/join.png"  width="80%">
+                <p>Friday<br>4:10PM</p>
+            </div>
+        </div>
     </div>
 
-    <div id="moment-title">
-      {{ data.lastmoment }}
+    <div id="footer-bar">
+        <div id="footer-buttons">
+            <img src="img/photo.png" onclick="CanvasCamera.start(opt)">
+            <img src="img/comment.png">
+            <img src="img/location.png" onclick="checkLocale()">
+        </div>
     </div>
 
-    <div id="profile-images">
-      <span ng-repeat="joiner in thislast.joined">
-        <!--
-        <span ng-if="showGravatar(joiner)"><ximg src="http://www.gravatar.com/avatar/{{ joiner.userid }}?s=40&d=mm"></span>
-        <span ng-if="showFacebookProfilePic(joiner)"><ximg src="http://graph.facebook.com/{{ joiner.userid }}/picture?type=square" style="width:40px;height:40px;"></span>
-        <span ng-if="showTwitterProfilePic(joiner)"><ximg src="https://twitter.com/{{ joiner.userid }}/profile_image?size=normal" style="width:40px;height:40px;"></span>
-        -->
-      </span>
-    </div>
-
-    <div id="next-moment-wrapper">
-
-      <div id="camera-shutter">
-        <canvas id="camera" width="100%" height="100%" style="border:2px solid black"></canvas>
-        <ximg src="img/shutter.png"  width="100%" height="100%">
+    <div id="countdown-bar">
         <div id="countdown-clock">07:06:45</div>
-      </div>
-
-      <div id="next-moment">
-        <img src="img/group.png"  width="50%"><br>
-        4,354<br>
-        Joined<br>
-        <img src="img/join.png"  width="80%">
-        <p>Friday<br>4:10PM</p>
-      </div>
-
     </div>
-
-  </div>
-
-  <div id="footer-bar">
-
-    <div id="location">
-      <img src="img/location.png" width="100%" onclick="checkLocale()">
-    </div>
-
-    <div id="comment">
-      <img src="img/comment.png" width="100%">
-    </div>
-
-    <div id="photo">
-      <img src="img/photo.png" width="100%" onclick="CanvasCamera.start(opt)">
-    </div>
-  </div>
 
     <!--
     <button ng-click="login('facebook')"><img src="img/facebook.png"></button>
@@ -103,8 +92,9 @@
     </p>
     -->
 
-  </div>
 </div>
+</div>
+
 </div>
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
@@ -141,6 +131,7 @@ function checkLocale() {
         function (locale) {alert('locale: ' + locale.value + '\n');},
         function () {alert('Error getting locale\n');}
       );
+}
 
 function onTakePicture() {
   console.log("Take a picture");
