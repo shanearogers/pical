@@ -188,29 +188,42 @@ body {
 }
 
 #next-moment-wrapper {
-    background: #44C8F5;
-    height: 340px;
+    position: absolute;
+    background-color: #44C8F5;
+    height: calc(100% - 230px);
     overflow: hidden;
 }
 
+#camera {
+    display: none;
+}
+
 #camera-shutter {
-    xfloat: left;
-    width: calc(100% - 280px);
-    height: calc( 100% - 350px)
+    float: left;
+    width: calc(100% - 80px);
+    height: calc(100%);
     overflow: hidden;
-    background: red;
+    background: black;
+}
+
+#camera-shutter img {
+    width: 100%;
+    height: 100%
 }
 
 #next-moment {
     float: right;
     width: 80px;
     background: #dddddd;
-    height: calc(100% - 5px);
+    height: 6000px;
     text-align: center;
     padding-top: 5px;
 }
 
 #footer-bar {
+    position: absolute;
+    bottom:0px;
+    width: 100%;
     background-color: #F7941E;
     height: 30px;
     border-top: 5px solid #44C8F5;
@@ -232,18 +245,26 @@ body {
 }
 
 #countdown-bar {
-    background-color: #07941E;
-    height: 10px;
+    position: absolute;
+    bottom: 0px;
+    height: 0px;
+    width: calc(100% - 80px);
 }
 #countdown-clock {
     position: relative;
-    top: -180px;
-    width: calc(100% - 120px);
+    top: -100px;
+    width: 100%;
     font-family: 'PT Sans', sans-serif;
     font-size: 40px;
-    color: #00FF00;
-    text-align: right;
-    background: yellow;
-    padding: 0px 5px;
+    color: #cccccc;
+    text-align: center;
 }
 
+.dosbox {
+    width: 100%;
+    min-height: 100px;
+    background-color: black;
+    color: #fdaa0b;
+    font-family: monospace;
+    padding: 5px;
+}
