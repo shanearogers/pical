@@ -1,7 +1,7 @@
 // SERVICES
-//console.log('Loading services.js');
+console.log('Loading services.js');
 
-picalApp.service('settings', function($location) {
+picalApp.service('settings', function() {
     var self = this;
     this.tzOffsetHours = 10;
     this.tzOffsetSeconds = this.tzOffsetHours * 60 * 60;
@@ -15,11 +15,8 @@ picalApp.service('settings', function($location) {
         var now_seconds = parseInt(now / 1000);
         var now_milliseconds = now - (now_seconds * 1000);
         var secondsRemaining = self.nextEventUtc - now_seconds;
-        if (secondsRemaining < 1) {
-            self.nextEventUtc += 600;
-            console.log('Take a picture');
-            $location.path('/sync');
-        }
+        self.secondsRemaining = secondsRemaining;
+        
         var hours = Math.floor(secondsRemaining / 3600);
         if (hours < 10) {
             h = '0' + hours;

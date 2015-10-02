@@ -1,0 +1,60 @@
+/* Custom dialog/modal headers */
+
+.dialog-header-error { background-color: #d2322d; }
+.dialog-header-wait { background-color: #428bca; }
+.dialog-header-notify { background-color: #eeeeee; }
+.dialog-header-confirm { background-color: #333333; }
+	.dialog-header-error span, .dialog-header-error h4,
+	.dialog-header-wait span, .dialog-header-wait h4,
+	.dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
+
+/* Ease Display */
+
+.pad { padding: 25px; }
+
+.ngdialog.ngdialog-theme-custom {
+	padding-top: 125px;
+	padding-bottom: 125px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.ngdialog-buttons img{
+    width: 50px;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-overlay {
+	background: rgba(0,0,0,.9);
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-content {
+	background: rgba(255,255,255,.9);
+	padding: 1.8em 2em;
+	width: 440px;
+	-webkit-border-radius: 0;
+	/*border-radius: 0;*/
+	border-radius: 10px;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-message h2 {
+	font-size: 26px;
+	font-family: 'Montserrat', 'Helvetica', Arial, sans-serif;
+	line-height: 30px;
+	margin-bottom: 20px;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-message {
+	font-size: 16px;
+	font-family: 'Source Sans Pro';
+	line-height: 22px;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-message ul {
+	padding: 0 0 5px 35px;
+}
+
+.ngdialog.ngdialog-theme-custom .ngdialog-button.ngdialog-button-primary {
+	background: #27ae60;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+}

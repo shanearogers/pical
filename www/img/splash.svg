@@ -1,0 +1,31 @@
+<svg id="pical_splash" height="400" width="500" style="background:#F7941E">  
+  <g transform="translate(100,50)">
+    <!-- P -->
+    <circle cx="41" cy="99" r="26" fill="#46C6F0" />
+    <path d="M 26 104 41 99 70 120" stroke="#F7941E" stroke-width="6" fill="none" />
+    <circle cx="41" cy="99" r="33" stroke="white" stroke-width="14" fill="none" />
+    <path d="M 1 199 1 99 15 99 15 204 Z" fill="white" />
+  
+    <!-- i -->
+    <path d="M 101 62 101 139 Z" stroke="white" stroke-width="14" fill="none" />
+    <path d="M 87 5 Q 106 33 135 18 Q 104 33 120 61 Q 104 33 76 50 Q 104 33 87 5" fill="white">
+      <animateTransform attributeName="transform"
+                      type="rotate"
+                      from="0 106 33" to="360 106 33"
+                      begin="2s" dur="1.5s"
+                      repeatCount="indefinite" />
+    </path>
+
+    <!-- c -->
+    <path d="M 172 75 158 75 A 25 25 0 0 0 158 132 M 158 132 172 132" stroke="white" stroke-width="14" fill="none" />
+
+    <!-- a -->
+    <circle cx="222" cy="99" r="26" fill="#46C6F0" />
+    <path d="M 213 89 222 99 240 80" stroke="#F7941E" stroke-width="6" fill="none" />
+    <circle cx="222" cy="99" r="33" stroke="white" stroke-width="14" fill="none" />
+    <path d="M 255 99 255 139" stroke="white" stroke-width="14" fill="none" />
+
+    <!-- l -->
+    <path d="M 277 22 291 27 291 134 277 139 Z" fill="white" />
+  </g>
+</svg>

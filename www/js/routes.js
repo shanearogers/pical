@@ -14,6 +14,11 @@ picalApp.config(function($routeProvider) {
         controller: 'syncController'
     })
     
+        .when('/signup', {
+        templateUrl: 'pages/signup.htm',
+        controller: 'signupController'
+    })
+    
         .otherwise({
         redirectTo: '/sync'
     });

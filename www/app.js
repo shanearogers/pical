@@ -1,5 +1,5 @@
 // MODULE
-var picalApp = angular.module('picalApp', ['ngRoute', 'ngResource', 'firebase']);
+var picalApp = angular.module('picalApp', ['ngRoute', 'ngResource', 'firebase', 'ngDialog']);
 
 var opt = {};
 
